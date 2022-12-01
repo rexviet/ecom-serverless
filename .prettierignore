@@ -1,0 +1,6 @@
+dist/
+node_modules/
+src/dependencies/nodejs/node_modules/
+archived/
+src/@types/
+infras/
