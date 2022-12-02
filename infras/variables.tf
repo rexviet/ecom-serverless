@@ -20,3 +20,7 @@ variable "region" {
 variable "document_db_master_password" {
   type = string
 }
+
+variable "document_db_connection_string" {
+  type = string
+}

@@ -25,5 +25,9 @@ provider "aws" {
 module "product-service" {
   source = "./services/product"
 
-  master_password = var.document_db_master_password
+  master_password   = var.document_db_master_password
+  connection_string = var.document_db_connection_string
+  rest_api_id       = aws_api_gateway_rest_api.rest_api.id
+  root_resource_id  = aws_api_gateway_rest_api.rest_api.root_resource_id
+  authorizer_id     = aws_api_gateway_authorizer.api_authorizer.id
 }

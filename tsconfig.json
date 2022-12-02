@@ -2,22 +2,15 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
+    "noImplicitAny": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "preserveConstEnums": true,
     "pretty": true,
-    "target": "es2019",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./src",
-    "typeRoots": ["./src/@types", "./node_modules/@types"],
-    "paths": {
-      "common/*": ["dependencies/nodejs/common/*"],
-      "utils/*": ["dependencies/nodejs/utils/*"],
-      "/opt/nodejs/*": ["dependencies/nodejs/*"]
-    }
+    "target": "es6",
+    "sourceMap": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "src/migration", "src/dependencies/node_modules"]

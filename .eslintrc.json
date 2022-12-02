@@ -44,7 +44,7 @@
     "no-continue": 1,
     "import/no-dynamic-require": 0,
     "global-require": 1,
-    "no-useless-constructor": 1
+    "no-useless-constructor": 0
   },
   "globals": {
     "log": true,

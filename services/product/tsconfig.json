@@ -1,0 +1,27 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "lib": ["es2019", "dom"],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
+        "pretty": true,
+        "skipLibCheck": true,
+        "target": "es6",
+        "sourceMap": true,
+        "baseUrl": "./src",
+        "outDir": "./dist",
+        "typeRoots": ["./src/@types", "./node_modules/@types"],
+        "paths": {
+            "/opt/nodejs/*": ["dependencies/nodejs/*"]
+          }
+    },
+    "include": ["src/**/*.ts", "tests/**/*.ts"],
+    "exclude": [
+        "bin/*",
+        "src/dependencies/nodejs/node_modules",
+        "src/dependencies/nodejs/node_modules/**/*.d.ts"
+    ]
+}

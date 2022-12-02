@@ -94,7 +94,8 @@ resource "aws_api_gateway_integration" "check_in_api_integration" {
 }
 
 resource "aws_api_gateway_deployment" "deployment" {
-  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  rest_api_id       = aws_api_gateway_rest_api.rest_api.id
+  stage_description = "Deployed at ${timestamp()}"
 
   triggers = {
     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.rest_api.body))
