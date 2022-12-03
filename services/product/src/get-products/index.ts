@@ -12,7 +12,7 @@ const func = async (event: any) => {
   if (!getProductsUS) {
     getProductsUS = initGetProductsUS();
   }
-  const body = event.body || {};
+
   const res = await getProductsUS.execute();
   console.log('res:', res);
   return {

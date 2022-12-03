@@ -17,6 +17,10 @@ terraform {
       source  = "hashicorp/random"
       version = "3.4.3"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "3.2.1"
+    }
   }
   required_version = ">= 0.14.9"
 }
@@ -33,13 +37,16 @@ provider "random" {
 module "product-service" {
   source = "./services/product"
 
-  master_password                    = var.document_db_master_password
-  connection_string                  = var.document_db_connection_string
-  rest_api_id                        = aws_api_gateway_rest_api.rest_api.id
-  root_resource_id                   = aws_api_gateway_rest_api.rest_api.root_resource_id
-  authorizer_id                      = aws_api_gateway_authorizer.api_authorizer.id
-  rest_api_execution_arn             = aws_api_gateway_rest_api.rest_api.execution_arn
+  master_password        = var.document_db_master_password
+  connection_string      = var.document_db_connection_string
+  rest_api_id            = aws_api_gateway_rest_api.rest_api.id
+  root_resource_id       = aws_api_gateway_rest_api.rest_api.root_resource_id
+  authorizer_id          = aws_api_gateway_authorizer.api_authorizer.id
+  rest_api_execution_arn = aws_api_gateway_rest_api.rest_api.execution_arn
+  # inventory_service_path             = "${aws_api_gateway_stage.stage.invoke_url}${module.inventory-service.inventories_path}"
   inventory_service_internal_api_key = module.inventory-service.internal_api_key
+  subnet_ids                         = [aws_subnet.subnet_private.id, aws_subnet.subnet_private_2.id]
+  security_group_ids                 = [aws_default_security_group.default_security_group.id]
 }
 
 module "inventory-service" {

@@ -15,14 +15,16 @@ export class PhinHttpClient implements HttpClient {
 
   constructor(private readonly endpoint: string, apiKey: string) {
     this.originalHeaders = {
-      [HttpHeaders.X_API_KEY]: apiKey,
+      [HttpHeaders.API_KEY]: apiKey,
       [HttpHeaders.CONTENT_TYPE]: 'application/json',
     };
   }
 
   public async get<T>(options: HttpClientOptions): Promise<HttpClientResponse<T>> {
     const url = this.buildFullUrlWithParams(this.endpoint, options.path, options.params);
-
+    console.log('url:', url);
+    const reqHeader = this.joinHeaders(this.originalHeaders, options.headers);
+    console.log('reqHeader:', reqHeader);
     const res = await p({
       url,
       method: 'GET',

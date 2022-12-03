@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "eslint": "eslint --quiet './**/*.ts?(x)'",
     "prepare": "husky install",
-    "format": "prettier --write services/**/*"
+    "format": "prettier --write services/**/src/*"
   },
   "author": "",
   "license": "ISC",

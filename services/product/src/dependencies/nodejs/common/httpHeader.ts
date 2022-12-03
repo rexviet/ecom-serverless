@@ -1,4 +1,4 @@
 export default class HttpHeaders {
-  public static readonly X_API_KEY = 'x-api-key';
+  public static readonly API_KEY = 'API_KEY';
   public static readonly CONTENT_TYPE = 'Content-Type';
 }

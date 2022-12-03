@@ -66,33 +66,6 @@ resource "aws_api_gateway_authorizer" "api_authorizer" {
   provider_arns = [aws_cognito_user_pool.ecom_user_pool.arn]
 }
 
-resource "aws_api_gateway_resource" "check_in_resource" {
-  rest_api_id = aws_api_gateway_rest_api.rest_api.id
-  parent_id   = aws_api_gateway_rest_api.rest_api.root_resource_id
-  path_part   = "check-in"
-}
-
-resource "aws_api_gateway_method" "check_in_api_method" {
-  rest_api_id   = aws_api_gateway_rest_api.rest_api.id
-  resource_id   = aws_api_gateway_resource.check_in_resource.id
-  http_method   = "GET"
-  authorization = "COGNITO_USER_POOLS"
-  authorizer_id = aws_api_gateway_authorizer.api_authorizer.id
-
-  request_parameters = {
-    "method.request.path.proxy" = true,
-  }
-}
-
-resource "aws_api_gateway_integration" "check_in_api_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.rest_api.id
-  resource_id             = aws_api_gateway_resource.check_in_resource.id
-  http_method             = aws_api_gateway_method.check_in_api_method.http_method
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.region}:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-1:099715235915:function:viest-test/invocations"
-}
-
 resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id       = aws_api_gateway_rest_api.rest_api.id
   stage_description = "Deployed at ${timestamp()}"
@@ -106,9 +79,9 @@ resource "aws_api_gateway_deployment" "deployment" {
   }
 }
 
-resource "aws_api_gateway_stage" "dev" {
+resource "aws_api_gateway_stage" "stage" {
   deployment_id = aws_api_gateway_deployment.deployment.id
   rest_api_id   = aws_api_gateway_rest_api.rest_api.id
-  stage_name    = "dev"
+  stage_name    = terraform.workspace
 }
 /****** End APIGateway REGION ******/

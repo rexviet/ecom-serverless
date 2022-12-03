@@ -14,6 +14,8 @@ enum ERROR_CODE {
   UNAUTHORIZED = 'UNAUTHORIZED',
   CONFLICT = 'CONFLICT',
   FORBIDDEN = 'FORBIDDEN',
+  PRODUCT_NOT_FOUND = 'PRODUCT_NOT_FOUND',
+  ID_IS_REQUIRED = 'ID_IS_REQUIRED',
 }
 
 const ERROR_LIST = {
@@ -44,6 +46,14 @@ const ERROR_LIST = {
   [ERROR_CODE.FORBIDDEN]: {
     code: HttpStatusCode.FORBIDDEN,
     error: 'E_FORBIDDEN',
+  },
+  [ERROR_CODE.PRODUCT_NOT_FOUND]: {
+    code: HttpStatusCode.NOT_FOUND,
+    error: 'Product not found',
+  },
+  [ERROR_CODE.ID_IS_REQUIRED]: {
+    code: HttpStatusCode.BAD_REQUEST,
+    error: 'id is required',
   },
 };
 

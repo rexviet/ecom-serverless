@@ -24,3 +24,27 @@ variable "document_db_master_password" {
 variable "document_db_connection_string" {
   type = string
 }
+
+variable "project" {
+  type    = string
+  default = "ecom"
+}
+variable "vpc_cidr_block" {
+  type        = string
+  description = "VPC CIDR"
+}
+
+variable "subnet_public_cidr_block" {
+  type        = string
+  description = "Public subnet CIDR"
+}
+
+variable "subnet_private_cidr_block" {
+  type        = string
+  description = "Private subnet CIDR"
+}
+
+variable "subnet_private_cidr_block_2" {
+  type        = string
+  description = "Private subnet 2 CIDR"
+}

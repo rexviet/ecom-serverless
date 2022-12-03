@@ -40,7 +40,7 @@ resource "aws_iam_policy" "iam_policy_rds" {
         "Action": [
             "rds-db:connect"
         ],
-        "Resource": "arn:aws:rds-db:${var.region}:${local.account_id}:dbuser:prx-07a216821603cc10d/root"
+        "Resource": "arn:aws:rds-db:${var.region}:${local.account_id}:dbuser:prx-07a216821603cc10d/*"
     }
   ]
 }
@@ -52,28 +52,28 @@ resource "aws_iam_policy" "iam_policy_rds" {
 #   policy_arn = aws_iam_policy.iam_policy_rds.arn
 # }
 
-resource "aws_api_gateway_resource" "inventories_resource" {
-  rest_api_id = var.rest_api_id
-  parent_id   = var.root_resource_id
-  path_part   = "inventories"
-}
+# resource "aws_api_gateway_resource" "inventories_resource" {
+#   rest_api_id = var.rest_api_id
+#   parent_id   = var.root_resource_id
+#   path_part   = "inventories"
+# }
 
-resource "aws_api_gateway_method" "inventories_api_method" {
-  rest_api_id   = var.rest_api_id
-  resource_id   = aws_api_gateway_resource.inventories_resource.id
-  http_method   = "GET"
-  authorization = "NONE"
+# resource "aws_api_gateway_method" "inventories_api_method" {
+#   rest_api_id   = var.rest_api_id
+#   resource_id   = aws_api_gateway_resource.inventories_resource.id
+#   http_method   = "GET"
+#   authorization = "NONE"
 
-  request_parameters = {
-    "method.request.path.proxy" = true,
-  }
-}
+#   request_parameters = {
+#     "method.request.path.proxy" = true,
+#   }
+# }
 
-resource "aws_api_gateway_integration" "inventories_api_integration" {
-  rest_api_id             = var.rest_api_id
-  resource_id             = aws_api_gateway_resource.inventories_resource.id
-  http_method             = aws_api_gateway_method.inventories_api_method.http_method
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = module.fnc-get-inven-by-sku.invoke_arn
-}
+# resource "aws_api_gateway_integration" "inventories_api_integration" {
+#   rest_api_id             = var.rest_api_id
+#   resource_id             = aws_api_gateway_resource.inventories_resource.id
+#   http_method             = aws_api_gateway_method.inventories_api_method.http_method
+#   integration_http_method = "POST"
+#   type                    = "AWS_PROXY"
+#   uri                     = module.fnc-get-inven-by-sku.invoke_arn
+# }

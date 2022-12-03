@@ -1,8 +1,17 @@
+resource "aws_docdb_subnet_group" "docdb_private_subnet" {
+  name       = "docdb_private_subnet"
+  subnet_ids = var.subnet_ids
+}
+
 resource "aws_docdb_cluster" "docdb" {
-  cluster_identifier = var.cluster_identifier
-  engine             = "docdb"
-  master_username    = var.master_username
-  master_password    = var.master_password
+  cluster_identifier        = var.cluster_identifier
+  engine                    = "docdb"
+  master_username           = var.master_username
+  master_password           = var.master_password
+  vpc_security_group_ids    = var.security_group_ids
+  db_subnet_group_name      = aws_docdb_subnet_group.docdb_private_subnet.name
+  skip_final_snapshot       = true
+  final_snapshot_identifier = "foo"
 }
 
 resource "aws_docdb_cluster_instance" "cluster_instances" {

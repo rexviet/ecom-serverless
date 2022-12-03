@@ -3,3 +3,7 @@ export interface IProduct {
   readonly sku: string;
   readonly attributes: any;
 }
+
+export interface IProductWithQuantity extends IProduct {
+  readonly quantity: number;
+}
