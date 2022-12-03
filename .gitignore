@@ -173,7 +173,7 @@ archived/
 # Local .terraform directories
 
 .terraform
-
+.terraform.lock.hcl
 \*_/.terraform/_
 
 # .tfstate files

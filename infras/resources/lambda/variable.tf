@@ -34,3 +34,16 @@ variable "subnet_ids" {
 variable "security_group_ids" {
   type = list(string)
 }
+
+variable "policies_arn" {
+  type    = list(string)
+  default = []
+}
+
+variable "invoke_principle" {
+  type = string
+}
+
+variable "invoke_src_arn" {
+  type = string
+}

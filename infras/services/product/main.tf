@@ -14,6 +14,8 @@ module "fnc-get-products" {
   }
   subnet_ids         = ["subnet-16911271"]
   security_group_ids = ["sg-1a9bc47c"]
+  invoke_principle   = "apigateway.amazonaws.com"
+  invoke_src_arn     = "${var.rest_api_execution_arn}/*/*/*"
 }
 
 resource "aws_api_gateway_resource" "products_resource" {

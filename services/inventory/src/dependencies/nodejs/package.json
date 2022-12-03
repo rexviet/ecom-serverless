@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@aws-sdk/rds-signer": "^3.222.0",
+    "@middy/core": "^2.5.2",
+    "@middy/cors": "^1.0.0-alpha.6",
+    "@middy/http-error-handler": "^2.5.2",
+    "@middy/http-json-body-parser": "^2.5.2",
+    "@middy/validator": "^4.0.0",
+    "aws-sdk": "^2.1267.0",
+    "compressed-json": "^1.0.16",
+    "joi": "^17.4.2",
+    "lambda-warmer": "1.2.1",
+    "middy": "^0.36.0",
+    "moment": "^2.29.1",
+    "pg": "^8.8.0",
+    "phin": "^3.4.1",
+    "querystring": "^0.2.1",
+    "typeorm": "^0.3.10"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.84",
+    "@types/node": "^16.11.6"
+  }
+}

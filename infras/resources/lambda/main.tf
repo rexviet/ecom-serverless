@@ -37,9 +37,16 @@ EOF
 #   EOF
 # }
 
-resource "aws_iam_role_policy_attachment" "iam-policy-attach" {
+resource "aws_iam_role_policy_attachment" "default-iam-policy-attach" {
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "additional-iam-policies-attach" {
+  for_each = { for v in var.policies_arn : v => v }
+
+  role       = aws_iam_role.iam_for_lambda.name
+  policy_arn = each.value
 }
 
 data "archive_file" "archived_function" {
@@ -64,4 +71,14 @@ resource "aws_lambda_function" "function" {
     subnet_ids         = var.subnet_ids
     security_group_ids = var.security_group_ids
   }
+}
+
+resource "aws_lambda_permission" "lambda_invoke_permission" {
+  action        = "lambda:InvokeFunction"
+  function_name = "${var.env_prefix}_${var.function_name}"
+  principal     = var.invoke_principle
+
+  # The /*/*/* part allows invocation from any stage, method and resource path
+  # within API Gateway REST API.
+  source_arn = var.invoke_src_arn
 }

@@ -1,6 +1,8 @@
 dist/
 node_modules/
 src/dependencies/nodejs/node_modules/
+services/**/bin/
+*.sh
 archived/
 src/@types/
 infras/
