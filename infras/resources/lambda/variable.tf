@@ -41,9 +41,11 @@ variable "policies_arn" {
 }
 
 variable "invoke_principle" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "invoke_src_arn" {
-  type = string
+  type    = string
+  default = ""
 }

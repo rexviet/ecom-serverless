@@ -142,3 +142,22 @@ resource "random_string" "internal_api_key" {
   length  = 16
   special = false
 }
+
+resource "aws_iam_policy" "iam_policy_rds" {
+  name        = "${terraform.workspace}_lambda_access-rds-policy"
+  description = "IAM Policy"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "rds-db:connect"
+        ],
+        "Resource": "arn:aws:rds-db:${var.region}:${local.account_id}:dbuser:prx-07a216821603cc10d/*"
+    }
+  ]
+}
+  EOF
+}

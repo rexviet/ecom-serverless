@@ -8,7 +8,7 @@ export class AppError extends Error {
   errors?: IErrorDetails[];
   additionalData?: any;
 
-  constructor(errorCode: ERROR_CODE, messageError?: string, errors?: IErrorDetails[], additionalData?: any) {
+  constructor(errorCode: ERROR_CODE, errors?: IErrorDetails[], messageError?: string, additionalData?: any) {
     const error = ERROR_LIST[errorCode] || ERROR_LIST[ERROR_CODE.SERVER_ERROR];
     const message = messageError || error.error;
     super(message);

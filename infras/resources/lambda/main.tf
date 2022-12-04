@@ -74,6 +74,7 @@ resource "aws_lambda_function" "function" {
 }
 
 resource "aws_lambda_permission" "lambda_invoke_permission" {
+  count         = var.invoke_src_arn != "" ? 1 : 0
   action        = "lambda:InvokeFunction"
   function_name = "${var.env_prefix}_${var.function_name}"
   principal     = var.invoke_principle

@@ -2,8 +2,8 @@ import HttpStatusCode from './httpStatusCode';
 
 interface IErrorDetails {
   message: string;
-  key: string;
-  code: string;
+  key?: string;
+  code?: string;
 }
 
 enum ERROR_CODE {
@@ -15,6 +15,7 @@ enum ERROR_CODE {
   CONFLICT = 'CONFLICT',
   FORBIDDEN = 'FORBIDDEN',
   SKU_IS_REQUIRED = 'SKU_IS_REQUIRED',
+  INSUFFICIENT_QUANTITY = 'INSUFFICIENT_QUANTITY',
 }
 
 const ERROR_LIST = {
@@ -49,6 +50,10 @@ const ERROR_LIST = {
   [ERROR_CODE.SKU_IS_REQUIRED]: {
     code: HttpStatusCode.BAD_REQUEST,
     error: 'sku is required',
+  },
+  [ERROR_CODE.INSUFFICIENT_QUANTITY]: {
+    code: HttpStatusCode.BAD_REQUEST,
+    error: 'Insufficient quantity',
   },
 };
 
