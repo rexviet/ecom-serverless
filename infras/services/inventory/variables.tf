@@ -1,26 +1,27 @@
-variable "region" {
-  type        = string
-  description = "AWS region create resources"
-  default     = "ap-southeast-1"
+variable "subnet_ids" {
+  type = list(string)
 }
 
-variable "db_port" {
-  type    = number
-  default = 5432
+variable "security_group_ids" {
+  type = list(string)
 }
 
-variable "db_password" {
+variable "connect_rds_policy_arn" {
   type = string
 }
 
-variable "rest_api_id" {
+variable "rds_db_host" {
   type = string
 }
 
-variable "root_resource_id" {
+variable "rds_db_port" {
+  type = number
+}
+
+variable "rds_db_user" {
   type = string
 }
 
-variable "res_api_execution_arn" {
+variable "rds_db_name" {
   type = string
 }

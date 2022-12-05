@@ -16,8 +16,7 @@ const func = async (event: APIGatewayProxyEvent) => {
     increaseQuantityUS = initIncreaseQuantityUS();
   }
 
-  const body = JSON.parse(event.body);
-  const { order } = body;
+  const order = JSON.parse(event.body);
 
   const params = new IncreaseQuantityParams(order);
   const res = await increaseQuantityUS.execute(params);

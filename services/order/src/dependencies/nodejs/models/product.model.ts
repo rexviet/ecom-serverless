@@ -4,7 +4,3 @@ export interface IProduct {
   readonly price: number;
   readonly attributes: any;
 }
-
-export interface IProductWithQuantity extends IProduct {
-  readonly quantity: number;
-}

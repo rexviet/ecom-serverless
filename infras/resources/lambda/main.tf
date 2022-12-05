@@ -1,3 +1,7 @@
+locals {
+  name = "${var.env_prefix}_${var.function_name}"
+}
+
 resource "aws_iam_role" "iam_for_lambda" {
   name = "${var.env_prefix}_iam_for_lambda-${var.function_name}"
 
@@ -44,9 +48,10 @@ resource "aws_iam_role_policy_attachment" "default-iam-policy-attach" {
 
 resource "aws_iam_role_policy_attachment" "additional-iam-policies-attach" {
   for_each = { for v in var.policies_arn : v => v }
-
+  # count = length(var.policies_arn)
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = each.value
+  # policy_arn = var.policies_arn[count.index]
 }
 
 data "archive_file" "archived_function" {
@@ -57,7 +62,7 @@ data "archive_file" "archived_function" {
 
 resource "aws_lambda_function" "function" {
   filename         = var.output_path
-  function_name    = "${var.env_prefix}_${var.function_name}"
+  function_name    = local.name
   source_code_hash = data.archive_file.archived_function.output_base64sha256
   role             = aws_iam_role.iam_for_lambda.arn
   handler          = "index.handler"
@@ -76,10 +81,29 @@ resource "aws_lambda_function" "function" {
 resource "aws_lambda_permission" "lambda_invoke_permission" {
   count         = var.invoke_src_arn != "" ? 1 : 0
   action        = "lambda:InvokeFunction"
-  function_name = "${var.env_prefix}_${var.function_name}"
+  function_name = local.name
   principal     = var.invoke_principle
 
   # The /*/*/* part allows invocation from any stage, method and resource path
   # within API Gateway REST API.
   source_arn = var.invoke_src_arn
+}
+
+resource "aws_iam_policy" "lambda_invoke_policy" {
+  name        = "${var.env_prefix}_lambda_invoke_policy_${local.name}"
+  description = "IAM Lambda Invoke Policy"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "lambda:InvokeFunction"
+        ],
+        "Resource": "${aws_lambda_function.function.arn}"
+    }
+  ]
+}
+  EOF
 }

@@ -34,25 +34,69 @@ provider "random" {
   # Configuration options
 }
 
-module "product-service" {
-  source = "./services/product"
+module "common" {
+  source = "./common"
 
-  master_password        = var.document_db_master_password
-  connection_string      = var.document_db_connection_string
-  rest_api_id            = aws_api_gateway_rest_api.rest_api.id
-  root_resource_id       = aws_api_gateway_rest_api.rest_api.root_resource_id
-  authorizer_id          = aws_api_gateway_authorizer.api_authorizer.id
-  rest_api_execution_arn = aws_api_gateway_rest_api.rest_api.execution_arn
-  # inventory_service_path             = "${aws_api_gateway_stage.stage.invoke_url}${module.inventory-service.inventories_path}"
-  inventory_service_internal_api_key = module.inventory-service.internal_api_key
-  subnet_ids                         = [aws_subnet.subnet_private.id, aws_subnet.subnet_private_2.id]
-  security_group_ids                 = [aws_default_security_group.default_security_group.id]
+  // Network
+  vpc_cidr_block              = var.vpc_cidr_block
+  subnet_public_cidr_block    = var.subnet_public_cidr_block
+  subnet_private_cidr_block   = var.subnet_private_cidr_block
+  subnet_private_cidr_block_2 = var.subnet_private_cidr_block_2
+
+  // DocumentDB
+  master_password = var.document_db_master_password
 }
 
 module "inventory-service" {
-  source                = "./services/inventory"
-  db_password           = "Viet1234"
-  rest_api_id           = aws_api_gateway_rest_api.rest_api.id
-  root_resource_id      = aws_api_gateway_rest_api.rest_api.root_resource_id
-  res_api_execution_arn = aws_api_gateway_rest_api.rest_api.execution_arn
+  source = "./services/inventory"
+  depends_on = [
+    module.common,
+  ]
+
+  subnet_ids             = module.common.subnet_ids
+  security_group_ids     = module.common.security_group_ids
+  connect_rds_policy_arn = module.common.connect_rds_arn
+  rds_db_host            = module.common.rds_db_host
+  rds_db_port            = module.common.rds_db_port
+  rds_db_user            = module.common.rds_db_user
+  rds_db_name            = module.common.rds_db_name
+}
+
+module "product-service" {
+  source = "./services/product"
+  depends_on = [
+    module.common,
+    module.inventory-service,
+  ]
+
+  connection_string                  = var.document_db_connection_string
+  rest_api_id                        = module.common.rest_api_id
+  root_resource_id                   = module.common.root_resource_id
+  authorizer_id                      = module.common.authorizer_id
+  rest_api_execution_arn             = module.common.rest_api_execution_arn
+  inventory_service_internal_api_key = module.inventory-service.internal_api_key
+  subnet_ids                         = module.common.subnet_ids
+  security_group_ids                 = module.common.security_group_ids
+}
+
+module "order-service" {
+  source = "./services/order"
+  depends_on = [
+    module.common,
+    module.inventory-service,
+  ]
+  rest_api_id                        = module.common.rest_api_id
+  rest_api_execution_arn             = module.common.rest_api_execution_arn
+  root_resource_id                   = module.common.root_resource_id
+  authorizer_id                      = module.common.authorizer_id
+  inventory_service_internal_api_key = module.inventory-service.internal_api_key
+  increase_quantity_fnc_name         = module.inventory-service.increase_quantity_fnc_name
+  rds_db_host                        = module.common.rds_db_host
+  rds_db_port                        = module.common.rds_db_port
+  rds_db_user                        = module.common.rds_db_user
+  rds_db_name                        = module.common.rds_db_name
+  connect_rds_policy_arn             = module.common.connect_rds_arn
+  additional_policies_arn            = [module.common.connect_rds_arn, module.inventory-service.increase_quantity_invoke_arn]
+  subnet_ids                         = module.common.subnet_ids
+  security_group_ids                 = module.common.security_group_ids
 }

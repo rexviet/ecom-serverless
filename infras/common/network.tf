@@ -64,6 +64,7 @@ resource "aws_subnet" "subnet_private" {
   tags = {
     Name = "${var.project}-subnet-private"
   }
+  availability_zone = "ap-southeast-1a"
 }
 
 resource "aws_route_table" "route_table_private" {
@@ -147,6 +148,13 @@ resource "aws_default_security_group" "default_security_group" {
     self      = true
     from_port = 0
     to_port   = 0
+  }
+
+  ingress {
+    protocol    = "tcp"
+    from_port   = 22
+    to_port     = 22
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
