@@ -100,3 +100,22 @@ module "order-service" {
   subnet_ids                         = module.common.subnet_ids
   security_group_ids                 = module.common.security_group_ids
 }
+
+module "payment-service" {
+  source = "./services/payment"
+  depends_on = [
+    module.common,
+  ]
+  rest_api_id               = module.common.rest_api_id
+  rest_api_execution_arn    = module.common.rest_api_execution_arn
+  root_resource_id          = module.common.root_resource_id
+  authorizer_id             = module.common.authorizer_id
+  rds_db_host               = module.common.rds_db_host
+  rds_db_port               = module.common.rds_db_port
+  rds_db_user               = module.common.rds_db_user
+  rds_db_name               = module.common.rds_db_name
+  additional_policies_arn   = [module.common.connect_rds_arn, module.common.cdc-payment-created_publish_policy_arn]
+  subnet_ids                = module.common.subnet_ids
+  security_group_ids        = module.common.security_group_ids
+  payment_created_topic_arn = module.common.cdc-payment-created_arn
+}

@@ -1,4 +1,5 @@
 import { CreateOrderParams } from 'create-order/params/create-order.params';
+import { OrderStatus } from '/opt/nodejs/common/order.enum';
 import { IOrderModel } from '/opt/nodejs/models/order.model';
 import { CreateOrderDetailPayload, CreateOrderPayload } from '/opt/nodejs/models/payloads/create-order.payload';
 import { IncreaseQuantityPayload } from '/opt/nodejs/models/payloads/increase-quantity.payload';
@@ -18,8 +19,12 @@ export class CreateOrderUS implements ICreateOrderUS {
   public async execute(params: CreateOrderParams): Promise<IOrderModel> {
     const order = await this.createOrder(params);
     console.log('order:', order);
-    await this.increaseInventoryQuantity(order);
-
+    try {
+      await this.increaseInventoryQuantity(order);
+    } catch (err) {
+      await this.repository.cancelOrder(order.id, 'Fail to prepare order');
+    }
+    await this.repository.updateOrderStatus(order.id, OrderStatus.WAITING_FOR_PAYMENT);
     return order;
   }
 

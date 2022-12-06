@@ -8,6 +8,7 @@ export interface IOrderDetail {
 }
 
 export interface IOrderModel {
+  readonly id: number;
   readonly user_name: string;
   readonly value: number;
   readonly address: string;

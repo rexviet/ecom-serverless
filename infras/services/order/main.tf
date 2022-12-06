@@ -1,8 +1,3 @@
-data "aws_caller_identity" "current" {}
-locals {
-  account_id = data.aws_caller_identity.current.account_id
-}
-
 module "fnc-create-order" {
   source = "../../resources/lambda"
 
@@ -44,11 +39,6 @@ resource "aws_api_gateway_method" "create_order_method" {
   http_method   = "POST"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = var.authorizer_id
-
-  #   request_parameters = {
-  #     "method.request.path.proxy" = true,
-  #     "method.request.path.id"    = true,
-  #   }
 }
 
 resource "aws_api_gateway_integration" "create_order_api_integration" {

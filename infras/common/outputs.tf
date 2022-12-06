@@ -41,3 +41,15 @@ output "authorizer_id" {
 output "rest_api_execution_arn" {
   value = aws_api_gateway_rest_api.rest_api.execution_arn
 }
+
+output "cdc-payment-created_arn" {
+  value = module.cdc-payment-created.topic_arn
+}
+
+output "cdc-payment-created_q_arn_mapper" {
+  value = module.cdc-payment-created.q_arn_mapper
+}
+
+output "cdc-payment-created_publish_policy_arn" {
+  value = module.cdc-payment-created.topic_publish_policy_arn
+}

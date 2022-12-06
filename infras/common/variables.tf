@@ -72,3 +72,10 @@ variable "instance_class" {
   default = "db.t3.medium"
 }
 /****** End DocumentDB REGION ******/
+
+/***** Start Topics REGION *****/
+variable "create_dlq" {
+  type    = bool
+  default = false
+}
+/****** End Topics REGION ******/

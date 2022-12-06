@@ -8,6 +8,8 @@ import { CreateOrderPayload } from '../models/payloads/create-order.payload';
 
 export interface IOrderRepository {
   createOrder(payload: CreateOrderPayload): Promise<IOrderModel>;
+  updateOrderStatus(id: number, status: OrderStatus): Promise<void>;
+  cancelOrder(id: number, reason?: string): Promise<void>;
 }
 
 export class OrderRepositoryImpl implements IOrderRepository {
@@ -47,6 +49,23 @@ export class OrderRepositoryImpl implements IOrderRepository {
       console.log('queryDetails:', queryDetails);
       order.detail = queryDetails;
       return order;
+    });
+  }
+
+  public async updateOrderStatus(id: number, status: OrderStatus): Promise<void> {
+    return AppDataSource.transaction(async (entityManager) => {
+      await entityManager.createQueryBuilder().update(Order).set({ status }).where('id = :id', { id }).execute();
+    });
+  }
+
+  public async cancelOrder(id: number, reason?: string): Promise<void> {
+    return AppDataSource.transaction(async (entityManager) => {
+      await entityManager
+        .createQueryBuilder()
+        .update(Order)
+        .set({ status: OrderStatus.CANCELED, reason })
+        .where('id = :id', { id })
+        .execute();
     });
   }
 }
