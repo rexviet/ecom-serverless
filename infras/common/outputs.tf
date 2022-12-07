@@ -53,3 +53,15 @@ output "cdc-payment-created_q_arn_mapper" {
 output "cdc-payment-created_publish_policy_arn" {
   value = module.cdc-payment-created.topic_publish_policy_arn
 }
+
+output "invoice_bucket_name" {
+  value = aws_s3_bucket.invoice_bucket.id
+}
+
+output "invoice_bucket_arn" {
+  value = aws_s3_bucket.invoice_bucket.arn
+}
+
+output "s3_put_policy_arn" {
+  value = aws_iam_policy.lambda_put_s3_iam_policy.arn
+}

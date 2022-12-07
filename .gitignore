@@ -165,7 +165,7 @@ _.msp
 packaged.yaml
 dist
 bin/\*\*/setting.json
-
+test.ts
 archived/
 
 ##### IaC with Terraform

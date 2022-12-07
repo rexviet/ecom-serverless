@@ -125,3 +125,16 @@ module "payment-service" {
   cdc_payment_created_publish_policy_arn = module.common.cdc-payment-created_publish_policy_arn
   get_order_invoke_arn                   = module.order-service.get_order_invoke_arn
 }
+
+module "invoice-service" {
+  source = "./services/invoice"
+  depends_on = [
+    module.common,
+  ]
+  subnet_ids          = module.common.subnet_ids
+  security_group_ids  = module.common.security_group_ids
+  queue_arn_mapper    = module.common.cdc-payment-created_q_arn_mapper
+  invoice_bucket_name = module.common.invoice_bucket_name
+  invoice_bucket_arn  = module.common.invoice_bucket_arn
+  s3_put_policy_arn   = module.common.s3_put_policy_arn
+}
