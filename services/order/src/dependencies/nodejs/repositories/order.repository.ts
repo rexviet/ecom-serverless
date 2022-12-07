@@ -10,6 +10,7 @@ export interface IOrderRepository {
   createOrder(payload: CreateOrderPayload): Promise<IOrderModel>;
   updateOrderStatus(id: number, status: OrderStatus): Promise<void>;
   cancelOrder(id: number, reason?: string): Promise<void>;
+  getOrder(id: number): Promise<IOrderModel>;
 }
 
 export class OrderRepositoryImpl implements IOrderRepository {
@@ -67,5 +68,13 @@ export class OrderRepositoryImpl implements IOrderRepository {
         .where('id = :id', { id })
         .execute();
     });
+  }
+
+  public async getOrder(id: number): Promise<IOrderModel> {
+    return this.repository
+      .createQueryBuilder('order')
+      .leftJoinAndSelect('order.detail', 'detail')
+      .where('order.id = :id', { id })
+      .getOne();
   }
 }

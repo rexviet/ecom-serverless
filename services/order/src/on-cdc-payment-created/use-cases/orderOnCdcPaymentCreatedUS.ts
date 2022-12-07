@@ -12,8 +12,8 @@ export class OrderOnCdcPaymentCreatedUS implements ICdcPaymentCreatedUS {
 
   public async execute(payment: IPaymentModel): Promise<void> {
     if (payment.status === PaymentStatus.FAIL) {
-      return this.repository.cancelOrder(payment.orderId, 'Canceled due to payment failed');
+      return this.repository.cancelOrder(payment.order.id, 'Canceled due to payment failed');
     }
-    return this.repository.updateOrderStatus(payment.orderId, OrderStatus.DELIVERING);
+    return this.repository.updateOrderStatus(payment.order.id, OrderStatus.DELIVERING);
   }
 }

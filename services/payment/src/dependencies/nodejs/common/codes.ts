@@ -15,6 +15,7 @@ enum ERROR_CODE {
   CONFLICT = 'CONFLICT',
   FORBIDDEN = 'FORBIDDEN',
   SKU_IS_REQUIRED = 'SKU_IS_REQUIRED',
+  ORDER_NOT_EXISTS = 'ORDER_NOT_EXISTS',
 }
 
 const ERROR_LIST = {
@@ -49,6 +50,10 @@ const ERROR_LIST = {
   [ERROR_CODE.SKU_IS_REQUIRED]: {
     code: HttpStatusCode.BAD_REQUEST,
     error: 'sku is required',
+  },
+  [ERROR_CODE.ORDER_NOT_EXISTS]: {
+    code: HttpStatusCode.UNPROCESSABLE_ENTITY,
+    error: 'Order is not exists',
   },
 };
 

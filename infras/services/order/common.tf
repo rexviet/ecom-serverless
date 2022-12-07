@@ -11,6 +11,11 @@ resource "aws_lambda_layer_version" "order_common_layer" {
   compatible_runtimes = ["nodejs12.x"]
 }
 
+resource "random_string" "internal_api_key" {
+  length  = 16
+  special = false
+}
+
 # resource "aws_iam_policy" "iam_policy_rds" {
 #   name        = "${terraform.workspace}_lambda_access-rds-policy"
 #   description = "IAM Policy"

@@ -15,13 +15,15 @@ module "fnc-create-payment" {
     "DB_USER"                   = var.rds_db_user
     "DB_NAME"                   = var.rds_db_name
     "PAYMENT_CREATED_TOPIC_ARN" = var.payment_created_topic_arn
+    "GET_ORDER_FUNC_NAME"       = var.get_order_fnc_name
+    "ORDER_SERVICE_API_KEY"     = var.order_service_internal_api_key
   }
   subnet_ids         = var.subnet_ids
   security_group_ids = var.security_group_ids
-  policies_arn       = var.additional_policies_arn
+  policies_arn       = [var.connect_rds_arn, var.cdc_payment_created_publish_policy_arn, var.get_order_invoke_arn]
   invoke_principle   = "apigateway.amazonaws.com"
   invoke_src_arn     = "${var.rest_api_execution_arn}/*/*/*"
-  timeout            = 3
+  timeout            = 10
 }
 
 // /payments

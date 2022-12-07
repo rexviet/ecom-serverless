@@ -25,3 +25,7 @@ variable "rds_db_user" {
 variable "rds_db_name" {
   type = string
 }
+
+variable "queue_arn_mapper" {
+  type = map(string)
+}

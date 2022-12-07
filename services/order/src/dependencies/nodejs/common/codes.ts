@@ -14,7 +14,7 @@ enum ERROR_CODE {
   UNAUTHORIZED = 'UNAUTHORIZED',
   CONFLICT = 'CONFLICT',
   FORBIDDEN = 'FORBIDDEN',
-  SKU_IS_REQUIRED = 'SKU_IS_REQUIRED',
+  ORDER_ID_IS_REQUIRED = 'ORDER_ID_IS_REQUIRED',
 }
 
 const ERROR_LIST = {
@@ -46,9 +46,9 @@ const ERROR_LIST = {
     code: HttpStatusCode.FORBIDDEN,
     error: 'E_FORBIDDEN',
   },
-  [ERROR_CODE.SKU_IS_REQUIRED]: {
+  [ERROR_CODE.ORDER_ID_IS_REQUIRED]: {
     code: HttpStatusCode.BAD_REQUEST,
-    error: 'sku is required',
+    error: 'order id is required',
   },
 };
 
