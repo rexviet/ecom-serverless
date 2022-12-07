@@ -49,3 +49,8 @@ variable "invoke_src_arn" {
   type    = string
   default = ""
 }
+
+variable "q_arn" {
+  type    = string
+  default = ""
+}

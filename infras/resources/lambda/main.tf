@@ -22,28 +22,35 @@ resource "aws_iam_role" "iam_for_lambda" {
 EOF
 }
 
-# resource "aws_iam_policy" "iam_policy" {
-#   name        = "${var.env_prefix}_lambda_access-policy-${var.function_name}"
-#   description = "IAM Policy"
-#   policy      = <<EOF
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#         "Effect": "Allow",
-#         "Action": [
-#             "sqs:*"
-#         ],
-#         "Resource": "${local.q_arn}"
-#     }
-#   ]
-# }
-#   EOF
-# }
+resource "aws_iam_policy" "lambda_q_iam_policy" {
+  count       = var.q_arn != "" ? 1 : 0
+  name        = "${var.env_prefix}_lambda_access-policy-${local.name}"
+  description = "IAM Policy"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "sqs:*"
+        ],
+        "Resource": "${var.q_arn}"
+    }
+  ]
+}
+  EOF
+}
 
 resource "aws_iam_role_policy_attachment" "default-iam-policy-attach" {
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
+resource "aws_iam_role_policy_attachment" "queue-iam-policy-attach" {
+  count      = var.q_arn != "" ? 1 : 0
+  role       = aws_iam_role.iam_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_q_iam_policy[0].arn
 }
 
 resource "aws_iam_role_policy_attachment" "additional-iam-policies-attach" {
@@ -106,4 +113,12 @@ resource "aws_iam_policy" "lambda_invoke_policy" {
   ]
 }
   EOF
+}
+
+resource "aws_lambda_event_source_mapping" "event_source_mapping" {
+  count            = var.q_arn != "" ? 1 : 0
+  event_source_arn = var.q_arn
+  enabled          = true
+  function_name    = aws_lambda_function.function.arn
+  batch_size       = 1
 }

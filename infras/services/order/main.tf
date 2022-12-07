@@ -56,3 +56,29 @@ resource "aws_lambda_permission" "invoke_increase_quantity_permission" {
   principal     = "lambda.amazonaws.com"
   source_arn    = module.fnc-create-order.function_arn
 }
+
+module "fnc-order-on-cdc-payment-created" {
+  source = "../../resources/lambda"
+
+  layers        = [aws_lambda_layer_version.order_common_layer.arn]
+  env_prefix    = terraform.workspace
+  function_name = "order-on-cdc-payment-created"
+  source_dir    = "../services/order/dist/on-cdc-payment-created"
+  output_path   = "../archived/order/on-cdc-payment-created.zip"
+  depends_on = [
+    aws_lambda_layer_version.order_common_layer
+  ]
+  env = {
+    "DB_HOST" = var.rds_db_host
+    "DB_PORT" = var.rds_db_port
+    "DB_USER" = var.rds_db_user
+    "DB_NAME" = var.rds_db_name
+  }
+  subnet_ids         = var.subnet_ids
+  security_group_ids = var.security_group_ids
+  policies_arn       = [var.connect_rds_policy_arn]
+  # invoke_principle   = "sqs.amazonaws.com"
+  # invoke_src_arn     = var.queue_arn_mapper["${terraform.workspace}-order-cdc-payment-created"]
+  timeout = 3
+  q_arn   = var.queue_arn_mapper["${terraform.workspace}-order-cdc-payment-created"]
+}

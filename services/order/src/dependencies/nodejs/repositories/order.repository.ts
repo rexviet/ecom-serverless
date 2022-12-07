@@ -63,7 +63,7 @@ export class OrderRepositoryImpl implements IOrderRepository {
       await entityManager
         .createQueryBuilder()
         .update(Order)
-        .set({ status: OrderStatus.CANCELED, reason })
+        .set({ status: OrderStatus.CANCELED, cancel_reason: reason })
         .where('id = :id', { id })
         .execute();
     });

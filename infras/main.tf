@@ -99,6 +99,7 @@ module "order-service" {
   additional_policies_arn            = [module.common.connect_rds_arn, module.inventory-service.increase_quantity_invoke_arn]
   subnet_ids                         = module.common.subnet_ids
   security_group_ids                 = module.common.security_group_ids
+  queue_arn_mapper                   = module.common.cdc-payment-created_q_arn_mapper
 }
 
 module "payment-service" {

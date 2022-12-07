@@ -19,7 +19,7 @@ export class CreatePaymentUS implements ICreatePaymentUS {
     const payload = new CreatePaymentPayload(params.orderId, status);
     const payment = await this.repository.createPayment(payload);
 
-    const message = new PaymentCreatedMessage(payment.id, payment.status, payment.created_at);
+    const message = new PaymentCreatedMessage(payment.id, payment.order_id, payment.status, payment.created_at);
     await this.topicRepo.notifyPaymentCreated(message);
 
     return payment;
