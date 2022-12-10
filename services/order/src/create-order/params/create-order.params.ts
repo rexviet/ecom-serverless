@@ -5,5 +5,10 @@ export class CreateOrderDetailParams {
 }
 
 export class CreateOrderParams {
-  constructor(readonly user_name: string, readonly address: string, readonly detail: CreateOrderDetailParams[]) {}
+  constructor(
+    readonly user_name: string,
+    readonly email: string,
+    readonly address: string,
+    readonly detail: CreateOrderDetailParams[]
+  ) {}
 }

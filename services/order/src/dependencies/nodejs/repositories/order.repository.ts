@@ -28,6 +28,7 @@ export class OrderRepositoryImpl implements IOrderRepository {
 
       let order = new Order();
       order.user_name = payload.user_name;
+      order.email = payload.email;
       order.value = payload.value;
       order.address = payload.address;
       order.status = OrderStatus.CREATED;

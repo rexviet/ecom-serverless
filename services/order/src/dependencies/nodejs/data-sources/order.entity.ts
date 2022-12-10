@@ -15,6 +15,13 @@ export class Order implements IOrderModel {
   })
   user_name: string;
 
+  @Index('idx_order_email')
+  @Column({
+    type: 'varchar',
+    nullable: false,
+  })
+  email: string;
+
   @Column({
     type: 'int4',
     nullable: false,

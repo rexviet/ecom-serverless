@@ -18,7 +18,8 @@ const func = async (event: APIGatewayProxyEvent) => {
     createOrderUS = initCreateOrderUS();
   }
   const user_name = event.requestContext.authorizer.claims['cognito:username'];
-  console.log('user_name:', user_name);
+  const email = event.requestContext.authorizer.claims['email'];
+  console.log('email:', email);
   // const { body } = event;
   const body: any = event.body as any;
   console.log('body:', body);
@@ -28,7 +29,7 @@ const func = async (event: APIGatewayProxyEvent) => {
     const price = Number(dt.product.price);
     return new CreateOrderDetailParams(dt.product, dt.quantity, quantity * price);
   });
-  const params = new CreateOrderParams(user_name, body.address, detailParams);
+  const params = new CreateOrderParams(user_name, email, body.address, detailParams);
   console.log('params:', params);
   const order = await createOrderUS.execute(params);
   return {

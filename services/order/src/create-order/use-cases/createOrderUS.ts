@@ -34,10 +34,16 @@ export class CreateOrderUS implements ICreateOrderUS {
     const orderValue = params.detail.reduce((val, detail) => {
       const payload = new CreateOrderDetailPayload(detail.product, detail.quantity, detail.value);
       createOrderDetailPayloads.push(payload);
-      return val + detail.quantity * detail.value;
+      return val + detail.value;
     }, 0);
 
-    const payload = new CreateOrderPayload(params.user_name, orderValue, params.address, createOrderDetailPayloads);
+    const payload = new CreateOrderPayload(
+      params.user_name,
+      params.email,
+      orderValue,
+      params.address,
+      createOrderDetailPayloads
+    );
     const order = await this.repository.createOrder(payload);
 
     return order;

@@ -138,3 +138,22 @@ module "invoice-service" {
   invoice_bucket_arn  = module.common.invoice_bucket_arn
   s3_put_policy_arn   = module.common.s3_put_policy_arn
 }
+
+module "notification-service" {
+  source = "./services/notification"
+  depends_on = [
+    module.common,
+  ]
+
+  subnet_ids                     = module.common.subnet_ids
+  security_group_ids             = module.common.security_group_ids
+  invoice_bucket_name            = module.common.invoice_bucket_name
+  invoice_bucket_arn             = module.common.invoice_bucket_arn
+  order_service_internal_api_key = module.order-service.internal_api_key
+  get_order_fnc_name             = module.order-service.get_order_fnc_name
+  get_order_invoke_arn           = module.order-service.get_order_invoke_arn
+  s3_get_object_policy_arn       = module.common.s3_get_object_policy_arn
+  mailjet_api_key                = var.mailjet_api_key
+  mailjet_api_secret             = var.mailjet_api_secret
+  system_email                   = var.system_email
+}

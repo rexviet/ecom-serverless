@@ -65,3 +65,7 @@ output "invoice_bucket_arn" {
 output "s3_put_policy_arn" {
   value = aws_iam_policy.lambda_put_s3_iam_policy.arn
 }
+
+output "s3_get_object_policy_arn" {
+  value = aws_iam_policy.lambda_get_s3_iam_policy.arn
+}

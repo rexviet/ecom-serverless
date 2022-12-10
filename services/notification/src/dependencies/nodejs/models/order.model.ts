@@ -1,4 +1,3 @@
-import { OrderStatus } from '../common/order.enum';
 import { IProduct } from './product.model';
 
 export interface IOrderDetail {
@@ -13,7 +12,7 @@ export interface IOrderModel {
   readonly email: string;
   readonly value: number;
   readonly address: string;
-  readonly status: OrderStatus;
+  readonly status: string;
   readonly detail: IOrderDetail[];
   readonly created_at: Date;
   readonly cancel_reason?: string;

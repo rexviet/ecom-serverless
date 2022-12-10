@@ -6,6 +6,7 @@ export class CreateOrderDetailPayload {
 export class CreateOrderPayload {
   constructor(
     readonly user_name: string,
+    readonly email: string,
     readonly value: number,
     readonly address: string,
     readonly detail: CreateOrderDetailPayload[]

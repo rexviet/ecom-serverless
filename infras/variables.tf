@@ -48,3 +48,15 @@ variable "subnet_private_cidr_block_2" {
   type        = string
   description = "Private subnet 2 CIDR"
 }
+
+variable "mailjet_api_key" {
+  type = string
+}
+
+variable "mailjet_api_secret" {
+  type = string
+}
+
+variable "system_email" {
+  type = string
+}
