@@ -167,7 +167,7 @@ dist
 bin/\*\*/setting.json
 test.ts
 archived/
-
+.history/
 ##### IaC with Terraform
 
 # Local .terraform directories
