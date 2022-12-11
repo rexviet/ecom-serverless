@@ -75,6 +75,7 @@ module "product-service" {
   root_resource_id                   = module.common.root_resource_id
   authorizer_id                      = module.common.authorizer_id
   rest_api_execution_arn             = module.common.rest_api_execution_arn
+  increase_quantity_fnc_name         = module.inventory-service.increase_quantity_fnc_name
   inventory_service_internal_api_key = module.inventory-service.internal_api_key
   subnet_ids                         = module.common.subnet_ids
   security_group_ids                 = module.common.security_group_ids

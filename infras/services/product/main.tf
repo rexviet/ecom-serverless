@@ -60,9 +60,9 @@ module "fnc-get-detail-product" {
     aws_lambda_layer_version.product_common_layer
   ]
   env = {
-    "CONNECTION_STRING" = var.connection_string
-    # "INVENTORY_SERVICE_ENDPOINT" = var.inventory_service_path
-    INVENTORY_SERVICE_API_KEY = var.inventory_service_internal_api_key
+    "CONNECTION_STRING"         = var.connection_string
+    INCREASE_QUANTITY_FUNC_NAME = var.increase_quantity_fnc_name
+    INVENTORY_SERVICE_API_KEY   = var.inventory_service_internal_api_key
   }
   subnet_ids         = var.subnet_ids
   security_group_ids = var.security_group_ids

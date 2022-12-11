@@ -1,9 +1,3 @@
-
-
-
-
-
-
 variable "connection_string" {
   type = string
 }
@@ -24,9 +18,9 @@ variable "rest_api_execution_arn" {
   type = string
 }
 
-# variable "inventory_service_path" {
-#   type = string
-# }
+variable "increase_quantity_fnc_name" {
+  type = string
+}
 variable "inventory_service_internal_api_key" {
   type = string
 }

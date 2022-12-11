@@ -1,4 +1,3 @@
-/***** Start NOT EDIT REGION *****/
 variable "env_prefix" {
   type    = string
   default = "dev"
@@ -20,15 +19,6 @@ variable "project" {
   type    = string
   default = "ecom"
 }
-/****** End NOT EDIT REGION ******/
-
-# variable "document_db_master_password" {
-#   type = string
-# }
-
-# variable "document_db_connection_string" {
-#   type = string
-# }
 
 /***** Start NETWORK REGION *****/
 variable "vpc_cidr_block" {

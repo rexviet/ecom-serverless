@@ -77,10 +77,8 @@ module "fnc-order-on-cdc-payment-created" {
   subnet_ids         = var.subnet_ids
   security_group_ids = var.security_group_ids
   policies_arn       = [var.connect_rds_policy_arn]
-  # invoke_principle   = "sqs.amazonaws.com"
-  # invoke_src_arn     = var.queue_arn_mapper["${terraform.workspace}-order-cdc-payment-created"]
-  timeout = 3
-  q_arn   = var.queue_arn_mapper["${terraform.workspace}-order-cdc-payment-created"]
+  timeout            = 3
+  q_arn              = var.queue_arn_mapper["${terraform.workspace}-order-cdc-payment-created"]
 }
 
 module "fnc-get-order" {

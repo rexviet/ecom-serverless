@@ -1,5 +1,3 @@
-
-
 module "fnc-invoice-on-cdc-payment-created" {
   source = "../../resources/lambda"
 

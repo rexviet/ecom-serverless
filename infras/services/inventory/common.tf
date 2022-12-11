@@ -1,7 +1,3 @@
-
-
-
-
 data "archive_file" "inventory_common_layer_file" {
   type        = "zip"
   source_dir  = "../services/inventory/dist/dependencies"

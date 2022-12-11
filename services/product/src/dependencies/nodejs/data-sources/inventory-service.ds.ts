@@ -1,18 +1,17 @@
 import { IInventoryModel } from '../models/inventory.model';
-import { HttpClient } from '../utils/httpClient';
 import { Lambda } from 'aws-sdk';
 import HttpStatusCode from '../common/httpStatusCode';
+import { ILambdaOptions } from '../common/lambdaOptions';
 
 export interface IInventoryServiceDS {
   getInventoryBySku(sku: string): Promise<IInventoryModel>;
 }
 
 export class InventoryServiceDSImpl implements IInventoryServiceDS {
-  constructor(private readonly inventoryServiceClient: HttpClient) {}
+  constructor(readonly lambdaClient: Lambda, readonly options: ILambdaOptions) {}
 
   public async getInventoryBySku(sku: string): Promise<IInventoryModel> {
-    const lambda = new Lambda({ region: 'ap-southeast-1' });
-    const invokeRes = await lambda
+    const invokeRes = await this.lambdaClient
       .invoke({
         FunctionName: 'default_get-inven-by-sku',
         InvocationType: 'RequestResponse',

@@ -39,7 +39,6 @@ resource "aws_api_gateway_method" "create_payment_method" {
   resource_id   = aws_api_gateway_resource.payments_resource.id
   http_method   = "POST"
   authorization = "NONE"
-  #   authorizer_id = var.authorizer_id
 }
 
 resource "aws_api_gateway_integration" "create_payment_api_integration" {
